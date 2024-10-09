@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import HangmanCanvas from "./HangmanCanvas";
-// import "./HangmanGame.css"; // Import the additional CSS file
 
 const words = [
   "REACT",
@@ -70,6 +69,7 @@ const Iot1 = () => {
   const [word, setWord] = useState("");
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [mistakes, setMistakes] = useState(0);
+  const lettersToReveal = 2; // Number of letters to reveal at the start
 
   useEffect(() => {
     resetGame();
@@ -79,7 +79,7 @@ const Iot1 = () => {
     if (isGameWon() || isGameLost()) {
       const timer = setTimeout(() => {
         window.location.reload(); // Reload the page when the game is won or lost
-      }, 800); // Optionally add a delay before reloading
+      }, 1000); // Optionally add a delay before reloading
 
       return () => clearTimeout(timer); // Clean up the timer
     }
@@ -108,9 +108,19 @@ const Iot1 = () => {
   };
 
   const resetGame = () => {
-    setWord(chooseRandomWord());
-    setGuessedLetters([]);
+    const newWord = chooseRandomWord();
+    setWord(newWord);
+    setGuessedLetters(revealRandomLetters(newWord, lettersToReveal));
     setMistakes(0);
+  };
+
+  const revealRandomLetters = (word, count) => {
+    const letters = new Set();
+    while (letters.size < count) {
+      const randomIndex = Math.floor(Math.random() * word.length);
+      letters.add(word[randomIndex]);
+    }
+    return Array.from(letters);
   };
 
   return (
