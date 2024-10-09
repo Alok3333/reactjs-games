@@ -1,9 +1,9 @@
 import "./App.css";
-import ChangingShape from "./pages/abc";
 import FindDiff from "./pages/FindDiff";
 import ImgPuzzle from "./pages/ImgPuzzle";
 import Iot1 from "./pages/Iot1";
 import MemoryGame from "./pages/Mem";
+import PacManGame from "./pages/PacMan";
 import PathFinderComponent from "./pages/PathFinderComponent";
 import RaceGame from "./pages/RaceGame";
 
@@ -14,8 +14,8 @@ function App() {
       {/* <RaceGame/> */}
       {/* <Iot1/> */}
       {/* <ImgPuzzle/> */}
+      <PacManGame />
 
-      <ChangingShape />
       {/* <PathFinderComponent/> */}
       {/* <MemoryGame/> */}
     </div>
