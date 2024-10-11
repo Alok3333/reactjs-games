@@ -5,6 +5,10 @@ import styles from "../virtuallabcss/Puzzle.module.css";
 import global1 from "./global1";
 import { Box, Container } from "@mui/system";
 import { Button, Typography, Modal } from "@mui/material";
+import FinalGamePage from "./FinalGamePage";
+
+// const avatarImg =
+//   "https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/50dab922-5d48-4c6b-8725-7fd0755d9334/3a3f2d35-8167-4708-9ef0-bdaa980989f9.png";
 
 const screenImg =
   "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-8-4435-screen-1.png";
@@ -21,8 +25,10 @@ const img5 =
 const img6 =
   "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-8-4412-FindDiff5.png";
 
+// Global data here
 const username = global1.name;
 const registerNo = global1.regno;
+const avatarImg = global1.profileImage; // global1 profile pic
 
 function ImgPuzzle() {
   const [level, setLevel] = useState(0);
@@ -33,8 +39,12 @@ function ImgPuzzle() {
   const [timeLeft, setTimeLeft] = useState(30); // Initial timer
   const [openModal, setOpenModal] = useState(false);
 
+  // Game Objective
+  const objective =
+    "The game enhances cognitive skills like problem-solving and spatial awareness while providing an engaging and fun experience. It may become repetitive for some players, and the time pressure could induce stress rather than enjoyment. The game is a jigsaw puzzle challenge that consists of 8 levels, each with a specific time limit and increasing difficulty. Players earn points based on their performance and must complete the puzzles to advance; finishing all levels displays their final score and allows for a replay.";
+
   // Timer duration for each level
-  const timerDuration = [30, 50, 80, 120, 180, 270]; // Timer for each level
+  const timerDuration = [30, 50, 80, 120, 180, 270, 360, 400]; // Timer for each level
 
   useEffect(() => {
     if (level > 0) {
@@ -57,18 +67,22 @@ function ImgPuzzle() {
 
   const handleNextLevel = () => {
     if (isSolved) {
-      const points = level === 5 ? 20 : 10 + level * 5; // Dynamic points based on level
+      const points = level > 6 ? 20 : 10; // Dynamic points based on level
       setScore((prev) => prev + points);
       setIsSolved(false);
-      setLevel((prev) => prev + 1);
+      if (level < 8) {
+        setLevel((prev) => prev + 1); // Increment level if less than 8
+      } else {
+        setIsFinished(true); // Show final screen if level is 8
+      }
       setTitle("Unpuzzle the pieces!");
     }
   };
 
-  const handleRestart = () => {
-    setOpenModal(false);
-    setTimeLeft(timerDuration[level - 1]); // Reset to the current level's timer
-  };
+  // const handleRestart = () => {
+  //   setOpenModal(false);
+  //   setTimeLeft(timerDuration[level - 1]); // Reset to the current level's timer
+  // };
 
   return (
     <>
@@ -79,7 +93,7 @@ function ImgPuzzle() {
             <Typography variant="h6" textAlign="center">
               Time's Up!
             </Typography>
-            <Button onClick={handleRestart}>Restart Level</Button>
+            {/* <Button onClick={handleRestart}>Restart Level</Button> */}
             <Button onClick={() => window.location.reload()} color="secondary">
               Restart Again
             </Button>
@@ -88,23 +102,25 @@ function ImgPuzzle() {
       )}
 
       {/* Header and Score */}
-      <Container
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          my: "20px",
-        }}
-      >
-        <Typography variant="h5" fontWeight="bold">
-          Username: {username}
-          <br />
-          Register no: {registerNo}
-        </Typography>
-        <Typography variant="h5" fontWeight="bold">
-          Score: {score} {level > 0 && `| Time Left: ${timeLeft}s`}
-        </Typography>
-      </Container>
+      {!isFinished && (
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            my: "20px",
+          }}
+        >
+          <Typography variant="h5" fontWeight="bold">
+            Username: {username}
+            <br />
+            Register no: {registerNo}
+          </Typography>
+          <Typography variant="h5" fontWeight="bold">
+            Score: {score} {level > 0 && `| Time Left: ${timeLeft}s`}
+          </Typography>
+        </Container>
+      )}
 
       {/* Game Levels */}
       {level === 0 && (
@@ -139,7 +155,7 @@ function ImgPuzzle() {
       )}
 
       {/* Puzzle Components */}
-      {level > 0 && (
+      {!isFinished && level > 0 && level <= 8 && (
         <Container>
           <h2 className={styles.tag}>{title}</h2>
           <Box
@@ -183,30 +199,16 @@ function ImgPuzzle() {
       )}
 
       {/* Finish Screen */}
-      {level > 6 && (
-        <Container
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Typography
-            variant="h5"
-            textAlign="center"
-            fontWeight="bold"
-            mb={"30px"}
-          >
-            Unpuzzle the pieces of image
-          </Typography>
-          <Typography variant="h5">{`Well Done ${username} 🎉`}</Typography>
-          <Typography variant="subtitle1" sx={{ fontSize: "2rem" }}>
-            Your total score is <br />
-            {score} / 100
-          </Typography>
-          <Button onClick={() => window.location.reload()}>Restart</Button>
-        </Container>
+      {isFinished && (
+        <FinalGamePage
+          username={username}
+          regno={registerNo}
+          profileImg={avatarImg}
+          objective={objective}
+          score={score}
+          title="Unpuzzle the pieces of image"
+          rating=""
+        />
       )}
 
       <style>

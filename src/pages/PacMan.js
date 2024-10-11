@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Container, Typography } from "@mui/material";
 import global1 from "./global1";
+import FinalGamePage from "./FinalGamePage";
 
+// Global data here
 const username = global1.name;
-// const username = "alok"
 const registerNo = global1.regno;
+const avatarImg = global1.profileImage; // global1 profile pic here
 
 const pacmanImage =
   "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-9-2550-Pacman_HD-removebg-preview.png";
@@ -36,6 +38,10 @@ const PacManGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [alertShown, setAlertShown] = useState(false);
 
+  // Game Objective
+  const objective =
+    "Real-time movement and strategic decisions keep players invested and motivated.Colorful graphics enhance the gaming experience, attracting a wide audience.The scoring system encourages competition and skill improvement, adding to replay value.Simple keyboard controls make the game accessible to players of all skill levels.";
+
   const handleKeyDown = (event) => {
     if (gameOver) return;
 
@@ -51,8 +57,7 @@ const PacManGame = () => {
       const newX = pacman.x + move.dx;
       const newY = pacman.y + move.dy;
 
-      setScore((prev) => prev + 2);
-
+      // Check if the new position is within bounds and not a wall
       if (
         newX >= 0 &&
         newX < map[0].length &&
@@ -60,11 +65,16 @@ const PacManGame = () => {
         newY < map.length &&
         map[newY][newX] !== 1
       ) {
+        // If it's a coin (2), update the score
+        if (map[newY][newX] === 2) {
+          setScore((prev) => Math.min(100, Math.max(0, prev + 2))); // Increase score by 10 for collecting a coin
+        }
+
         setMap((prevMap) => {
           const newMap = [...prevMap];
-          newMap[pacman.y][pacman.x] = 3; // ground
+          newMap[pacman.y][pacman.x] = 3; // Set previous position to ground
           setPacman({ x: newX, y: newY });
-          newMap[newY][newX] = 5; // pacman
+          newMap[newY][newX] = 5; // Set new position to Pac-Man
           return newMap;
         });
       }
@@ -180,9 +190,6 @@ const PacManGame = () => {
             alt="Pacman"
             style={{ width: "50px", height: "50px" }}
           />
-          //   <svg width="50" height="50">
-          //     <path d="M 25,25 A 20,20 0 1,1 0,25 L 25,25 Z" fill="yellow" />
-          //   </svg>
         );
       default:
         return null;
@@ -197,24 +204,28 @@ const PacManGame = () => {
 
   return (
     <>
-      {/* Header and Score */}
-      <Container
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          my: "20px",
-        }}
-      >
-        <Typography variant="h5" fontWeight="bold">
-          Username: {username}
-          <br />
-          Register no: {registerNo}
-        </Typography>
-        <Typography variant="h5" fontWeight="bold">
-          Score: {score} {level > 0}
-        </Typography>
-      </Container>
+      {!isFinished && (
+        <>
+          {/* Header and Score */}
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              my: "20px",
+            }}
+          >
+            <Typography variant="h5" fontWeight="bold">
+              Username: {username}
+              <br />
+              Register no: {registerNo}
+            </Typography>
+            <Typography variant="h5" fontWeight="bold">
+              Score: {score} {level > 0}
+            </Typography>
+          </Container>
+        </>
+      )}
 
       {/* Game Levels */}
       {level === 0 && (
@@ -248,7 +259,7 @@ const PacManGame = () => {
         </Container>
       )}
 
-      {level === 1 && (
+      {!isFinished && level === 1 && (
         <Container>
           <Box
             id="world"
@@ -308,76 +319,17 @@ const PacManGame = () => {
         </Container>
       )}
 
-      {level > 1 && (
-        <Container
-          sx={{
-            width: "100%",
-            height: "400px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Typography
-            variant="h5"
-            textAlign="center"
-            fontFamily="Montserrat, sans-serif"
-            fontWeight="400"
-            mb={"30px"}
-            textTransform="capitalize"
-          >
-            Pac-Man: The Coin Collector
-          </Typography>
-          <Box
-            sx={{
-              bgcolor: "lightblue",
-              color: "#FFFFFF",
-              padding: "20px",
-              textAlign: "center",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "5px",
-              boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-            }}
-          >
-            <Box
-              sx={{
-                width: "400px",
-                overflow: "hidden",
-                display: "grid",
-                placeItems: "center",
-              }}
-            >
-              <Typography
-                variant="h5"
-                sx={{ fontFamily: "Montserrat, sans-serif", fontWeight: "700" }}
-              >
-                Well Done {username} 🎉
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  fontSize: "2rem",
-                  fontFamily: "Montserrat, sans-serif",
-                  fontWeight: "400",
-                }}
-              >
-                Your total score is <br />
-                {score}
-              </Typography>
-            </Box>
-          </Box>
-
-          <Button
-            onClick={() => window.location.reload()}
-            color="secondary"
-            sx={{ marginTop: "20px" }}
-          >
-            Restart
-          </Button>
-        </Container>
+      {/* Finish Screen */}
+      {isFinished && (
+        <FinalGamePage
+          username={username}
+          regno={registerNo}
+          profileImg={avatarImg}
+          objective={objective}
+          score={score}
+          title="Pac-Man: The Coin Collector"
+          rating=""
+        />
       )}
 
       <style>

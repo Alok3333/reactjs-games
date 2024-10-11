@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
 import HangmanCanvas from "./HangmanCanvas";
+import global1 from "./global1";
+import FinalGamePage from "./FinalGamePageNew";
+import { Box, Button, Container, Typography } from "@mui/material";
+
+// Global data here
+const username = global1.name;
+const registerNo = global1.regno;
+const avatarImg = global1.profileImage; // global1 profile pic here
 
 const words = [
   "REACT",
@@ -66,10 +74,16 @@ const words = [
 ];
 
 const Iot1 = () => {
+  const [level, setLevel] = useState(0);
+  const [score, setScore] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
   const [word, setWord] = useState("");
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [mistakes, setMistakes] = useState(0);
   const lettersToReveal = 2; // Number of letters to reveal at the start
+
+  // Game Objective
+  const objective = "";
 
   useEffect(() => {
     resetGame();
@@ -124,47 +138,109 @@ const Iot1 = () => {
   };
 
   return (
-    <div className="hangman-container">
-      <h1 style={{ color: "#40513B" }}>Word-Guessing Game</h1>
-      <h5 style={{ color: "#40513B" }}>
-        Start a new game, guess letters to reveal the word, and avoid drawing
-        the word-guessing by making incorrect guesses. Win by guessing the word
-        is complete. Have fun!
-      </h5>
-      <h5 style={{ color: "#40513B" }}>
-        We have over 50 words related to education. Guess the letters and have
-        fun playing!
-      </h5>
-
-      <HangmanCanvas mistakes={mistakes} />
-      <div className="word-display">
-        {word.split("").map((letter, index) => (
-          <span key={index} className="letter">
-            {guessedLetters.includes(letter) ? letter : "*"}
-          </span>
-        ))}
-      </div>
-      <div className="keyboard">
-        {Array.from(Array(26)).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => handleGuess(String.fromCharCode(65 + index))}
-            disabled={guessedLetters.includes(String.fromCharCode(65 + index))}
+    <>
+      {!isFinished && (
+        <>
+          {/* Header and Score */}
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              my: "20px",
+            }}
           >
-            {String.fromCharCode(65 + index)}
-          </button>
-        ))}
-      </div>
-      {isGameWon() && <p className="result-message">You won!</p>}
-      {isGameLost() && (
-        <p className="result-message">You lost! The word was: {word}</p>
+            <Typography variant="h5" fontWeight="bold">
+              Username: {username}
+              <br />
+              Register no: {registerNo}
+            </Typography>
+            <Typography variant="h5" fontWeight="bold">
+              Score: {score} {level > 0}
+            </Typography>
+          </Container>
+        </>
       )}
-      <button className="new-game-button" onClick={resetGame}>
-        New Game
-      </button>
 
-      <style>
-        {`
+      {/* Game Levels */}
+      {level === 0 && (
+        <Container>
+          <Box sx={{ width: "100%", position: "relative" }}>
+            {/* <img
+              src={screenImg}
+              className="hover-image"
+              style={{ width: "100%", transition: "filter 0.3s ease" }}
+              alt="screen-demo"
+            /> */}
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                color: "#fff",
+              }}
+            >
+              <Typography variant="h6">Word Guessing</Typography>
+              <Button
+                variant="contained"
+                onClick={() => setLevel((prev) => prev + 1)}
+                sx={{ left: "32%" }}
+              >
+                Play Game
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      )}
+
+      {!isFinished && level === 1 && (
+        <div className="hangman-container">
+          <h1 style={{ color: "#40513B" }}>Word-Guessing Game</h1>
+          <h5 style={{ color: "#40513B" }}>
+            Start a new game, guess letters to reveal the word, and avoid
+            drawing the word-guessing by making incorrect guesses. Win by
+            guessing the word is complete. Have fun!
+          </h5>
+          <h5 style={{ color: "#40513B" }}>
+            We have over 50 words related to education. Guess the letters and
+            have fun playing!
+          </h5>
+
+          <HangmanCanvas mistakes={mistakes} />
+          <div className="word-display">
+            {word.split("").map((letter, index) => (
+              <span key={index} className="letter">
+                {guessedLetters.includes(letter) ? letter : "*"}
+              </span>
+            ))}
+          </div>
+          <div className="keyboard">
+            {Array.from(Array(26)).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleGuess(String.fromCharCode(65 + index))}
+                disabled={guessedLetters.includes(
+                  String.fromCharCode(65 + index)
+                )}
+              >
+                {String.fromCharCode(65 + index)}
+              </button>
+            ))}
+          </div>
+          {isGameWon() && <p className="result-message">You won!</p>}
+          {isGameLost() && (
+            <p className="result-message">You lost! The word was: {word}</p>
+          )}
+          <button className="new-game-button" onClick={resetGame}>
+            Change word
+          </button>
+          <button className="new-game-button" onClick={resetGame}>
+            Next Level
+          </button>
+
+          <style>
+            {`
             .hangman-canvas {
                 display: flex;
                 justify-content: center;
@@ -262,7 +338,9 @@ const Iot1 = () => {
             .hangman-container {
                 text-align: center;
                 padding: 20px;
-                margin: 10%;
+                margin-top: 5%;
+                margin-left: 10%;
+                margin-right: 10%;
                 background-color: #EDF1D6;
                 border-radius: 10px;
                 box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
@@ -281,6 +359,8 @@ const Iot1 = () => {
                 border-radius: 5px;
                 cursor: pointer;
                 margin-top: 20px;
+                margin-left: 5px;
+                margin-right: 5px;
                 transition: all 0.3s ease;
             }
 
@@ -289,8 +369,22 @@ const Iot1 = () => {
             }
 
         `}
-      </style>
-    </div>
+          </style>
+        </div>
+      )}
+
+      {/* Finish Screen */}
+      {isFinished && (
+        <FinalGamePage
+          username={username}
+          regno={registerNo}
+          profileImg={avatarImg}
+          objective={objective}
+          score={score}
+          title="Pac-Man: The Coin Collector"
+        />
+      )}
+    </>
   );
 };
 

@@ -7,6 +7,13 @@ import {
   Dialog,
   Grid,
 } from "@mui/material";
+import global1 from "./global1";
+import FinalGamePage from "./FinalGamePage";
+
+// Global data here
+const username = global1.name;
+const registerNo = global1.regno;
+const avatarImg = global1.profileImage; // global1 profile pic here
 
 const t1 =
   "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-5-2518-output-onlinegiftools.gif";
@@ -33,6 +40,8 @@ const finishLine = 1600; // Set a fixed width for the finish line
 
 const RaceGame = () => {
   const [level, setLevel] = useState(0);
+  const [score, setScore] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
   const [turtlePosition, setTurtlePosition] = useState(0);
   const [rabbitPosition, setRabbitPosition] = useState(0);
   const [raceOver, setRaceOver] = useState(false);
@@ -43,6 +52,10 @@ const RaceGame = () => {
   const [rabbitImage, setRabbitImage] = useState(t1); // Track rabbit image
   const [raceStarted, setRaceStarted] = useState(false); // Track if the race has started
   const [openDialog, setOpenDialog] = useState(false); // Control dialog visibility
+
+  // Game Objective
+  const objective =
+    "Dive into the excitement of the Turtle and Rabbit Race! Experience the thrill of friendly competition as you guide your turtle to victory against the speedy rabbit. With each level, the stakes rise, and your skills are put to the test! Enjoy vibrant backgrounds, engaging challenges, and the satisfaction of strategic gameplay. Will you claim the title of champion? Join the race and find out! 🐢🏁🐇";
 
   const resetRace = () => {
     setTurtlePosition(0);
@@ -60,6 +73,21 @@ const RaceGame = () => {
   const startRace = () => {
     setRaceStarted(true); // Set race to started
   };
+
+  // // Function to handle keyboard events
+  // const handleKeyDown = (event) => {
+  //   if (event.key === "ArrowRight" || event.key === " ") {
+  //     advanceTurtle();
+  //   }
+  // };
+
+  // // Add event listener for keydown
+  // useEffect(() => {
+  //   window.addEventListener("keydown", handleKeyDown);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, []);
 
   const advanceTurtle = () => {
     if (!raceOver) {
@@ -140,6 +168,9 @@ const RaceGame = () => {
   //   Handle for next level
   const handleClickNext1 = () => {
     setLevel((prev) => prev + 1);
+    if (winner === "Turtle wins!") {
+      setScore((prev) => prev + 30);
+    }
     setTurtlePosition(0);
     setRabbitPosition(0);
     setRaceOver(false);
@@ -155,6 +186,9 @@ const RaceGame = () => {
   //   Handle for next level
   const handleClickNext2 = () => {
     setLevel((prev) => prev + 1);
+    if (winner === "Turtle wins!") {
+      setScore((prev) => prev + 30);
+    }
     setTurtlePosition(0);
     setRabbitPosition(0);
     setRaceOver(false);
@@ -167,8 +201,50 @@ const RaceGame = () => {
     setOpenDialog(false); // Close the dialog
   };
 
+  //   Handle for next level
+  const handleClickNext3 = () => {
+    setLevel((prev) => prev + 1);
+    if (winner === "Turtle wins!") {
+      setScore((prev) => prev + 40);
+    }
+    setTurtlePosition(0);
+    setRabbitPosition(0);
+    setRaceOver(false);
+    setWinner("");
+    setIsRabbitPaused(false);
+    setPauseIndex(0); // Reset pause index
+    setLastRabbitSpeed(0);
+    setRabbitImage(t1); // Reset to original image
+    setRaceStarted(false); // Reset race started state
+    setOpenDialog(false); // Close the dialog
+    setIsFinished(true);
+  };
+
   return (
     <>
+      {!isFinished && (
+        <>
+          {/* Header and Score */}
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              my: "20px",
+            }}
+          >
+            <Typography variant="h5" fontWeight="bold">
+              Username: {username}
+              <br />
+              Register no: {registerNo}
+            </Typography>
+            <Typography variant="h5" fontWeight="bold">
+              Score: {score} {level > 0}
+            </Typography>
+          </Container>
+        </>
+      )}
+
       {level === 0 && (
         <Container
           sx={{ display: "grid", placeItems: "center", height: "100vh" }}
@@ -232,7 +308,7 @@ const RaceGame = () => {
         </Container>
       )}
 
-      {level === 1 && (
+      {!isFinished && level === 1 && (
         <Box sx={{ width: "100%", height: "100vh", position: "relative" }}>
           <img
             src={bgimg}
@@ -369,7 +445,7 @@ const RaceGame = () => {
         </Box>
       )}
 
-      {level === 2 && (
+      {!isFinished && level === 2 && (
         <Box sx={{ width: "100%", height: "100vh", position: "relative" }}>
           <img
             src={bgimg2}
@@ -506,7 +582,7 @@ const RaceGame = () => {
         </Box>
       )}
 
-      {level === 3 && (
+      {!isFinished && level === 3 && (
         <Box sx={{ width: "100%", height: "100vh", position: "relative" }}>
           <img
             src={bgimg3}
@@ -630,10 +706,10 @@ const RaceGame = () => {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() => window.location.reload()}
+                      onClick={handleClickNext3}
                       style={{ marginTop: "10px", marginLeft: "10px" }}
                     >
-                      Home
+                      Finish
                     </Button>
                   </Box>
                 </Box>
@@ -641,6 +717,19 @@ const RaceGame = () => {
             )}
           </Container>
         </Box>
+      )}
+
+      {/* Finish Screen */}
+      {isFinished && (
+        <FinalGamePage
+          username={username}
+          regno={registerNo}
+          profileImg={avatarImg}
+          objective={objective}
+          score={score}
+          title="Turtle and Rabbit Race"
+          rating=""
+        />
       )}
     </>
   );

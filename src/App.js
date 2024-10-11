@@ -1,4 +1,7 @@
 import "./App.css";
+import BetterAimGame2 from "./pages/BatterAim";
+import ChessGame from "./pages/Chess";
+import FinalGamePage from "./pages/FinalGamePageNew";
 import FindDiff from "./pages/FindDiff";
 import ImgPuzzle from "./pages/ImgPuzzle";
 import Iot1 from "./pages/Iot1";
@@ -8,20 +11,26 @@ import BetterAimGame from "./pages/NewGame2";
 import PacManGame from "./pages/PacMan";
 import PathFinderComponent from "./pages/PathFinderComponent";
 import RaceGame from "./pages/RaceGame";
+import WordGuessing from "./pages/WordGuessing";
 
 function App() {
   return (
     <div>
-      {/* <FindDiff/> */}
-      {/* <RaceGame/> */}
-      {/* <Iot1/> */}
-      {/* <ImgPuzzle/> */}
-      <PacManGame />
+      {/* <FindDiff/> done*/}
+      {/* <RaceGame/> done*/}
+      {/* <WordGuessing/> done*/}
+      <ImgPuzzle/>
+      {/* <PacManGame />  done*/}
+      {/* <BetterAimGame2/> done*/}
+
+      {/* <BetterAimGame/> */}
+      {/* <ChessGame/> */}
 
       {/* <PuzzleSolver/> */}
-      {/* <BetterAimGame/> */}
       {/* <PathFinderComponent/> */}
       {/* <MemoryGame/> */}
+      {/* <Iot1/> */}
+      {/* <FinalGamePage/> */}
     </div>
   );
 }

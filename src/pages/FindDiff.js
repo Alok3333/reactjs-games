@@ -6,15 +6,14 @@ import {
   Typography,
   Grid,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from "@mui/material";
+import FinalGamePage from "./FinalGamePage";
+import global1 from "./global1";
 
-// Global username and regno
-const username = "Alok";
-const regno = "11fdf3552";
+// Global data here
+const username = global1.name;
+const registerNo = global1.regno;
+const avatarImg = global1.profileImage; // global1 profile pic here
 
 // Dummy data for the game
 const imageData = [
@@ -34,10 +33,15 @@ const imageData = [
 
 const FindDiff = () => {
   const [level, setLevel] = useState(0);
+  const [score, setScore] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
-  const [openModal, setOpenModal] = useState(false); // State for modal
+
+  // Game Objective
+  const objective =
+    'Embark on an exciting adventure with our "Find the Differences" game! Challenge your keen eye as you discover hidden differences between pairs of images. Each level offers unique puzzles that enhance your concentration and problem-solving skills. Rack up points with every correct answer and strive for the top of the leaderboard—let the fun begin!';
 
   const handleAnswerChange = (e) => {
     setUserAnswers(e.target.value);
@@ -69,23 +73,43 @@ const FindDiff = () => {
     if (isSubmit) {
       setLevel((prev) => prev + 1);
       setCurrentImageIndex((prevIndex) => prevIndex + 1);
+      setScore((prev) => prev + 50);
       setIsSubmit(false);
     }
   };
 
   const handleNext2 = () => {
     if (isSubmit) {
-      setOpenModal(true); // Open the modal
+      setScore((prev) => prev + 50);
+      setIsFinished(true); // Open the final page
     }
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false); // Close the modal
-    window.location.reload(); // Reload the page after closing
   };
 
   return (
     <>
+      {!isFinished && (
+        <>
+          {/* Header and Score */}
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              my: "20px",
+            }}
+          >
+            <Typography variant="h5" fontWeight="bold">
+              Username: {username}
+              <br />
+              Register no: {registerNo}
+            </Typography>
+            <Typography variant="h5" fontWeight="bold">
+              Score: {score} {level > 0}
+            </Typography>
+          </Container>
+        </>
+      )}
+
       {level === 0 && (
         <Container
           sx={{ display: "grid", placeItems: "center", height: "100vh" }}
@@ -116,7 +140,7 @@ const FindDiff = () => {
         </Container>
       )}
 
-      {level === 1 && (
+      {!isFinished && level === 1 && (
         <Container
           maxWidth="xll"
           sx={{ marginTop: "15px", marginBottom: "15px" }}
@@ -149,7 +173,7 @@ const FindDiff = () => {
             sx={{ width: "50ch" }}
             value={userAnswers}
             onChange={handleAnswerChange}
-            style={{ marginTop: 160 }}
+            style={{ marginTop: 50 }}
           />
 
           <Box
@@ -179,7 +203,7 @@ const FindDiff = () => {
         </Container>
       )}
 
-      {level === 2 && (
+      {!isFinished && level === 2 && (
         <Container maxWidth="xll">
           <Typography variant="h4" gutterBottom textAlign="center">
             Find the Differences!
@@ -209,7 +233,7 @@ const FindDiff = () => {
             sx={{ width: "50ch" }}
             value={userAnswers}
             onChange={handleAnswerChange}
-            style={{ marginTop: 180 }}
+            style={{ marginTop: 50 }}
           />
 
           <Box
@@ -240,17 +264,18 @@ const FindDiff = () => {
         </Container>
       )}
 
-      <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Well Done! 🎉</DialogTitle>
-        <DialogContent>
-          <Typography>You're doing a great job!</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* Finish Screen */}
+      {isFinished && (
+        <FinalGamePage
+          username={username}
+          regno={registerNo}
+          profileImg={avatarImg}
+          objective={objective}
+          score={score}
+          title="Find the Differences!"
+          rating=""
+        />
+      )}
     </>
   );
 };
