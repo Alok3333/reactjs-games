@@ -1,0 +1,80 @@
+
+
+// 1. FindDiff
+
+import FindDiff from './pages/FindDiff'
+
+<Route path="/finddiff" element={<FindDiff />} />
+
+<ListItem button component={RouterLink} to="/finddiff">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+</ListItem>
+
+
+// 2. RaceGame
+
+import RaceGame from './pages/RaceGame'
+
+<Route path="/racegame" element={<RaceGame />} />
+
+<ListItem button component={RouterLink} to="/racegame">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+</ListItem>
+
+
+// 3. WordGuessing
+
+import WordGuessing from './pages/WordGuessing'
+
+<Route path="/wordguessing" element={<WordGuessing />} />
+
+<ListItem button component={RouterLink} to="/wordguessing">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+</ListItem>
+
+
+// 4. ImgPuzzle
+
+import ImgPuzzle from './pages/ImgPuzzle'
+
+<Route path="/imgpuzzle" element={<ImgPuzzle />} />
+
+<ListItem button component={RouterLink} to="/imgpuzzle">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+</ListItem>
+
+// 5. PacManGame
+
+import PacManGame from './pages/PacManGame'
+
+<Route path="/pacmangame" element={<PacManGame />} />
+
+<ListItem button component={RouterLink} to="/pacmangame">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+
+// 6. BetterAimGame2
+
+import BetterAimGame2 from './pages/BetterAimGame2'
+
+<Route path="/betteraimgame" element={<BetterAimGame2 />} />
+
+<ListItem button component={RouterLink} to="/betteraimgame">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}

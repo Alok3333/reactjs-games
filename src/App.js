@@ -5,6 +5,7 @@ import FinalGamePage from "./pages/FinalGamePageNew";
 import FindDiff from "./pages/FindDiff";
 import ImgPuzzle from "./pages/ImgPuzzle";
 import Iot1 from "./pages/Iot1";
+import MazeGen from "./pages/MazeGen";
 import MemoryGame from "./pages/Mem";
 import PuzzleSolver from "./pages/NewGame";
 import BetterAimGame from "./pages/NewGame2";
@@ -19,17 +20,19 @@ function App() {
       {/* <FindDiff/> done*/}
       {/* <RaceGame/> done*/}
       {/* <WordGuessing/> done*/}
-      <ImgPuzzle/>
+      {/* <ImgPuzzle/> done*/}
       {/* <PacManGame />  done*/}
-      {/* <BetterAimGame2/> done*/}
+      <BetterAimGame2/>
 
-      {/* <BetterAimGame/> */}
+      {/* <BetterAimGame/> copy*/}
       {/* <ChessGame/> */}
 
-      {/* <PuzzleSolver/> */}
+      {/* <MazeGen/> */}
+
+      {/* <PuzzleSolver/> done not send*/}
       {/* <PathFinderComponent/> */}
       {/* <MemoryGame/> */}
-      {/* <Iot1/> */}
+      {/* <Iot1/> copy*/}
       {/* <FinalGamePage/> */}
     </div>
   );
