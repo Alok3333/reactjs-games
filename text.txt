@@ -78,3 +78,28 @@ import BetterAimGame2 from './pages/BetterAimGame2'
 <PersonIcon />
 </ListItemIcon>
 {open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+
+// 7. MazeGeneration
+
+import MazeGeneration from './pages/MazeGeneration'
+
+<Route path="/mazegeneration" element={<MazeGeneration />} />
+
+<ListItem button component={RouterLink} to="/mazegeneration">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+
+
+// 8. UltimateBattleGame
+
+import UltimateBattleGame from './pages/UltimateBattleGame'
+
+<Route path="/ultimatebattleGame" element={<UltimateBattleGame />} />
+
+<ListItem button component={RouterLink} to="/ultimatebattleGame">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}

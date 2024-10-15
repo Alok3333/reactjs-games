@@ -7,11 +7,12 @@ import ImgPuzzle from "./pages/ImgPuzzle";
 import Iot1 from "./pages/Iot1";
 import MazeGen from "./pages/MazeGen";
 import MemoryGame from "./pages/Mem";
-import PuzzleSolver from "./pages/NewGame";
+import UltimateBattleGame from "./pages/UltimateBattleGame";
 import BetterAimGame from "./pages/NewGame2";
 import PacManGame from "./pages/PacMan";
 import PathFinderComponent from "./pages/PathFinderComponent";
 import RaceGame from "./pages/RaceGame";
+import TetrisGame from "./pages/TetrisGame";
 import WordGuessing from "./pages/WordGuessing";
 
 function App() {
@@ -22,14 +23,15 @@ function App() {
       {/* <WordGuessing/> done*/}
       {/* <ImgPuzzle/> done*/}
       {/* <PacManGame />  done*/}
-      <BetterAimGame2/>
+      {/* <BetterAimGame2/> done*/}
+      {/* <MazeGen/> done*/}
+      <UltimateBattleGame />
+
+      {/* <TetrisGame/> working*/}
 
       {/* <BetterAimGame/> copy*/}
       {/* <ChessGame/> */}
 
-      {/* <MazeGen/> */}
-
-      {/* <PuzzleSolver/> done not send*/}
       {/* <PathFinderComponent/> */}
       {/* <MemoryGame/> */}
       {/* <Iot1/> copy*/}
