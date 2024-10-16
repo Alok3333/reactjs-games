@@ -14,6 +14,7 @@ import PathFinderComponent from "./pages/PathFinderComponent";
 import RaceGame from "./pages/RaceGame";
 import TetrisGame from "./pages/TetrisGame";
 import WordGuessing from "./pages/WordGuessing";
+import DiceGame from "./pages/DiceGame";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
       {/* <PacManGame />  done*/}
       {/* <BetterAimGame2/> done*/}
       {/* <MazeGen/> done*/}
-      <UltimateBattleGame />
+      {/* <UltimateBattleGame /> done*/}
+      <DiceGame/>
 
       {/* <TetrisGame/> working*/}
 
