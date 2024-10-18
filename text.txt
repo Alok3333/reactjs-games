@@ -103,3 +103,16 @@ import UltimateBattleGame from './pages/UltimateBattleGame'
 <PersonIcon />
 </ListItemIcon>
 {open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+
+
+// 9. DiceGame
+
+import DiceGame from './pages/DiceGame'
+
+<Route path="/dicegame" element={<DiceGame />} />
+
+<ListItem button component={RouterLink} to="/dicegame">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}

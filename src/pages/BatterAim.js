@@ -8,7 +8,7 @@ const username = global1.name;
 const registerNo = global1.regno;
 const avatarImg = global1.profileImage; // global1 profile pic here
 
-const BetterAimGame2 = () => {
+const BetterAim = () => {
   const [level, setLevel] = useState(0);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
@@ -338,4 +338,4 @@ const styles = {
   },
 };
 
-export default BetterAimGame2;
+export default BetterAim;
