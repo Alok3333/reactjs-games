@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import global1 from "./global1";
 import FinalGamePage from "./FinalGamePage";
 import { Typography } from "@mui/material";
-
-// Global data here
-const username = global1.name;
-const registerNo = global1.regno;
-const avatarImg = global1.profileImage; // global1 profile pic here
 
 const dices =
   "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-16-548-dices.png";
@@ -22,6 +16,12 @@ const diceImages = [
 ];
 
 const DiceGame = () => {
+  // Global file access here
+  const name = global1.name;
+  const regno = global1.regno;
+  const avatarImg = global1.profileImage;
+
+  // State start here
   const [level, setLevel] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [score, setScore] = useState(0);
@@ -66,17 +66,174 @@ const DiceGame = () => {
   };
 
   const handleNext = () => {
-    // check min score to go next level
     if (score >= 25) {
       setIsFinished(true);
-      setLevel((pev) => pev + 1);
+      setLevel((prev) => prev + 1);
     } else {
-      alert("You Should get 25 score to go next level");
+      alert("You should get 25 score to go next level");
     }
   };
 
   return (
     <>
+      <style>{`
+        .start-game {
+          max-width: 1180px;
+          height: 100vh;
+          display: flex;
+          margin: 0 auto;
+          align-items: center;
+        }
+        
+        .content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .game-title {
+          font-size: 96px;
+          white-space: nowrap;
+        }
+        
+        .game-container {
+          padding-top: 70px;
+        }
+        
+        .game-header {
+          display: flex;
+          justify-content: space-around;
+          align-items: flex-end;
+        }
+        
+        .total-score {
+          max-width: 200px;
+          text-align: center;
+        }
+        
+        .score-value {
+          font-size: 100px;
+          line-height: 100px;
+        }
+        
+        .score-label {
+          font-size: 24px;
+          font-weight: 500;
+        }
+        
+        .button-container {
+          margin-top: 40px;
+          gap: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .rules {
+          max-width: 800px;
+          margin: 0 auto;
+          background-color: #fbf1f1;
+          padding: 20px;
+          margin-top: 40px;
+          margin-bottom: 40px;
+          border-radius: 10px;
+        }
+        
+        .rules-title {
+          font-size: 24px;
+        }
+        
+        .rules-content {
+          margin-top: 24px;
+        }
+        
+        .role-dice {
+          margin-top: 48px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .dice {
+          cursor: pointer;
+        }
+        
+        .dice-instruction {
+          font-size: 24px;
+        }
+        
+        .number-selector {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        }
+        
+        .error-message {
+          color: #ff0000;
+          font-size: 24px;
+          font-weight: 700;
+        }
+        
+        .number-buttons {
+          display: flex;
+          gap: 24px;
+        }
+        
+        .box {
+          height: 72px;
+          width: 72px;
+          border: 1px solid black;
+          border-radius: 8px;
+          display: grid;
+          place-items: center;
+          font-size: 24px;
+          font-weight: 700;
+          background-color: white;
+          color: black;
+          cursor: pointer;
+        }
+        
+        .box.selected {
+          background-color: black;
+          color: white;
+        }
+        
+        .button,
+        .outline-button {
+          padding: 10px 18px;
+          border-radius: 5px;
+          min-width: 220px;
+          border: none;
+          font-size: 16px;
+          cursor: pointer;
+          transition: 0.4s background ease-in;
+        }
+        
+        .button {
+          background: #000000;
+          color: white;
+        }
+        
+        .button:hover {
+          background-color: white;
+          border: 1px solid black;
+          color: black;
+        }
+        
+        .outline-button {
+          background-color: white;
+          border: 1px solid black;
+          color: black;
+        }
+        
+        .outline-button:hover {
+          background-color: black;
+          border: 1px solid transparent;
+          color: white;
+        }
+      `}</style>
+
       {/* Header and Score */}
       {!isFinished && (
         <Typography
@@ -87,13 +244,12 @@ const DiceGame = () => {
             alignItems: "center",
             mx: "15%",
             my: "20px",
-            // backgroundColor: "red",
           }}
         >
           <Typography variant="h5" fontWeight="bold">
-            Username: {username}
+            Student: {name}
             <br />
-            Register no: {registerNo}
+            Register no: {regno}
           </Typography>
           <Typography variant="h5" fontWeight="bold">
             Score: {score}
@@ -107,8 +263,8 @@ const DiceGame = () => {
       {!isFinished && level === 1 && (
         <>
           {isGameStarted ? (
-            <MainContainer>
-              <div className="top_section">
+            <div className="game-container">
+              <div className="game-header">
                 <TotalScore score={score} />
                 <NumberSelector
                   error={error}
@@ -118,7 +274,7 @@ const DiceGame = () => {
                 />
               </div>
               <RoleDice currentDice={currentDice} roleDice={roleDice} />
-              <div className="btns">
+              <div className="button-container">
                 <OutlineButton onClick={resetScore}>Reset Score</OutlineButton>
                 <Button onClick={() => setShowRules((prev) => !prev)}>
                   {showRules ? "Hide" : "Show"} Rules
@@ -126,7 +282,7 @@ const DiceGame = () => {
                 <Button onClick={handleNext}>Next</Button>
               </div>
               {showRules && <Rules />}
-            </MainContainer>
+            </div>
           ) : (
             <StartGame toggle={toggleGamePlay} />
           )}
@@ -136,8 +292,8 @@ const DiceGame = () => {
       {/* Finish Screen */}
       {isFinished && (
         <FinalGamePage
-          username={username}
-          regno={registerNo}
+          username={name}
+          regno={regno}
           profileImg={avatarImg}
           objective={objective}
           score={score}
@@ -150,46 +306,46 @@ const DiceGame = () => {
 };
 
 const TotalScore = ({ score }) => (
-  <ScoreContainer>
-    <h1>{score}</h1>
-    <p>Total Score</p>
-  </ScoreContainer>
+  <div className="total-score">
+    <h1 className="score-value">{score}</h1>
+    <p className="score-label">Total Score</p>
+  </div>
 );
 
 const StartGame = ({ toggle }) => (
-  <Container>
+  <div className="start-game">
     <div>
       <img src={dices} alt="dices" />
     </div>
     <div className="content">
-      <h1>Dicey Decisions</h1>
+      <h1 className="game-title">Dicey Decisions</h1>
       <Button onClick={toggle}>Play Now</Button>
     </div>
-  </Container>
+  </div>
 );
 
 const Rules = () => (
-  <RulesContainer>
-    <h2>How to play dice game</h2>
-    <div className="text">
+  <div className="rules">
+    <h2 className="rules-title">How to play the dice game</h2>
+    <div className="rules-content">
       <p>Select any number</p>
-      <p>Click on dice image</p>
+      <p>Click on the dice image</p>
       <p>
-        After clicking on the dice, if the selected number equals the dice
-        number, you will get the same points as the dice.
+        If the selected number equals the dice number, you will get the same
+        points as the dice.
       </p>
       <p>If you guess wrong, then 2 points will be deducted.</p>
     </div>
-  </RulesContainer>
+  </div>
 );
 
 const RoleDice = ({ roleDice, currentDice }) => (
-  <DiceContainer>
+  <div className="role-dice">
     <div className="dice" onClick={roleDice}>
       <img src={diceImages[currentDice - 1]} alt={`dice ${currentDice}`} />
     </div>
-    <p>Click on Dice to roll</p>
-  </DiceContainer>
+    <p className="dice-instruction">Click on Dice to roll</p>
+  </div>
 );
 
 const NumberSelector = ({
@@ -206,157 +362,28 @@ const NumberSelector = ({
   };
 
   return (
-    <NumberSelectorContainer>
-      <p className="error">{error}</p>
-      <div className="flex">
+    <div className="number-selector">
+      <p className="error-message">{error}</p>
+      <div className="number-buttons">
         {arrNumber.map((value, i) => (
-          <Box
-            isSelected={value === selectedNumber}
+          <div
+            className={`box ${value === selectedNumber ? "selected" : ""}`}
             key={i}
             onClick={() => numberSelectorHandler(value)}
           >
             {value}
-          </Box>
+          </div>
         ))}
       </div>
       <p>Select Number</p>
-    </NumberSelectorContainer>
+    </div>
   );
 };
 
-const MainContainer = styled.main`
-  padding-top: 70px;
-  .top_section {
-    display: flex;
-    justify-content: space-around;
-    align-items: end;
-  }
-  .btns {
-    margin-top: 40px;
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-`;
+const Button = (props) => <button className="button" {...props} />;
 
-const NumberSelectorContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-
-  .flex {
-    display: flex;
-    gap: 24px;
-  }
-  p {
-    font-size: 24px;
-    font-weight: 700;
-  }
-  .error {
-    color: red;
-  }
-`;
-
-const Box = styled.div`
-  height: 72px;
-  width: 72px;
-  border: 1px solid black;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  font-size: 24px;
-  font-weight: 700;
-  background-color: ${(props) => (props.isSelected ? "black" : "white")};
-  color: ${(props) => (!props.isSelected ? "black" : "white")};
-`;
-
-const DiceContainer = styled.div`
-  margin-top: 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .dice {
-    cursor: pointer;
-  }
-
-  p {
-    font-size: 24px;
-  }
-`;
-
-const RulesContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: #fbf1f1;
-  padding: 20px;
-  margin-top: 40px;
-  border-radius: 10px;
-  h2 {
-    font-size: 24px;
-  }
-  .text {
-    margin-top: 24px;
-  }
-`;
-
-const Container = styled.div`
-  max-width: 1180px;
-  height: 100vh;
-  display: flex;
-  margin: 0 auto;
-  align-items: center;
-
-  .content {
-    h1 {
-      font-size: 96px;
-      white-space: nowrap;
-    }
-  }
-`;
-
-const ScoreContainer = styled.div`
-  max-width: 200px;
-  text-align: center;
-  h1 {
-    font-size: 100px;
-    line-height: 100px;
-  }
-  p {
-    font-size: 24px;
-    font-weight: 500;
-  }
-`;
-
-const Button = styled.button`
-  color: white;
-  padding: 10px 18px;
-  background: #000000;
-  border-radius: 5px;
-  min-width: 220px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.4s background ease-in;
-  &:hover {
-    background-color: white;
-    border: 1px solid black;
-    color: black;
-    transition: 0.3s background ease-in;
-  }
-`;
-
-const OutlineButton = styled(Button)`
-  background-color: white;
-  border: 1px solid black;
-  color: black;
-  &:hover {
-    background-color: black;
-    border: 1px solid transparent;
-    color: white;
-  }
-`;
+const OutlineButton = (props) => (
+  <button className="outline-button" {...props} />
+);
 
 export default DiceGame;

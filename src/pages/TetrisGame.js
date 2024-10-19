@@ -3,13 +3,10 @@ import React, { useState, useEffect, useRef } from "react";
 import global1 from "./global1";
 import FinalGamePage from "./FinalGamePage";
 
-const imgScreen = "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-17-3818-m1.jpg";
-const img2 = "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-17-3836-m2.jpg";
-
-// Global data here
-const name = global1.name;
-const regno = global1.regno;
-const avatarImg = global1.profileImage; // global1 profile pic here
+const imgScreen =
+  "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-17-3818-m1.jpg";
+const img2 =
+  "https://jadavpuruniversity.s3-ap-south-1.amazonaws.com/10-2024-17-3836-m2.jpg";
 
 const COLS = 10;
 const ROWS = 20;
@@ -66,6 +63,12 @@ const useInterval = (callback, delay) => {
 const randomShape = () => SHAPES[Math.floor(Math.random() * SHAPES.length)];
 
 const TetrisGame = () => {
+  // Global data here
+  const name = global1.name;
+  const regno = global1.regno;
+  const avatarImg = global1.profileImage; // global1 profile pic here
+
+  // State start from here
   const [level, setLevel] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [score, setScore] = useState(0);
@@ -252,75 +255,75 @@ const TetrisGame = () => {
               <div className="tetris-container">
                 <style>
                   {`
-          .tetris-container {
-            position: relative;
-            width: 300px;
-            height: 605px;
-            border: 2px solid #333;
-            margin: 0 auto;
-            background-color: #f0f0f0;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            font-family: 'Arial', sans-serif;
-          }
+                    .tetris-container {
+                      position: relative;
+                      width: 300px;
+                      height: 605px;
+                      border: 2px solid #333;
+                      margin: 0 auto;
+                      background-color: #f0f0f0;
+                      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                      font-family: 'Arial', sans-serif;
+                    }
 
-          .tetris-row {
-            display: flex;
-          }
+                    .tetris-row {
+                      display: flex;
+                    }
 
-          .tetris-cell {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ddd;
-            transition: background-color 0.2s;
-          }
+                    .tetris-cell {
+                      width: 30px;
+                      height: 30px;
+                      border: 1px solid #ddd;
+                      transition: background-color 0.2s;
+                    }
 
-          .tetris-cell:hover {
-            background-color: #e0e0e0;
-          }
+                    .tetris-cell:hover {
+                      background-color: #e0e0e0;
+                    }
 
-          .current-shape {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border: 1px solid #333;
-            transition: background-color 0.2s;
-          }
+                    .current-shape {
+                      position: absolute;
+                      width: 30px;
+                      height: 30px;
+                      border: 1px solid #333;
+                      transition: background-color 0.2s;
+                    }
 
-          .start-button {
-            // position: absolute;
-            // bottom: 10px;
-            margin-top: 20px;
-            margin-left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-          }
+                    .start-button {
+                      // position: absolute;
+                      // bottom: 10px;
+                      margin-top: 20px;
+                      margin-left: 50%;
+                      transform: translateX(-50%);
+                      padding: 10px 20px;
+                      font-size: 16px;
+                      background-color: #28a745;
+                      color: white;
+                      border: none;
+                      border-radius: 5px;
+                      cursor: pointer;
+                      transition: background-color 0.3s;
+                    }
 
-          .start-button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-          }
+                    .start-button:disabled {
+                      background-color: #ccc;
+                      cursor: not-allowed;
+                    }
 
-          .start-button:hover:not(:disabled) {
-            background-color: #218838;
-          }
+                    .start-button:hover:not(:disabled) {
+                      background-color: #218838;
+                    }
 
-          .game-over {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 24px;
-            color: red;
-            font-weight: bold;
-          }
-        `}
+                    .game-over {
+                      position: absolute;
+                      top: 10px;
+                      left: 50%;
+                      transform: translateX(-50%);
+                      font-size: 24px;
+                      color: red;
+                      font-weight: bold;
+                    }
+                `}
                 </style>
                 {/* Render the scene */}
                 {scene.map((row, rowIndex) => (
@@ -358,7 +361,7 @@ const TetrisGame = () => {
                   })
                 )}
                 {/* Display Game Over message when the game is complete */}
-                {gameOver && <div className="game-over">Game Over!</div>}
+                {/* {gameOver && <div className="game-over">Game Over!</div>} */}
               </div>
               <div>
                 {" "}

@@ -116,3 +116,29 @@ import DiceGame from './pages/DiceGame'
 <PersonIcon />
 </ListItemIcon>
 {open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+
+// 10. TetrisGame
+
+import TetrisGame from './pages/TetrisGame'
+
+<Route path="/tetrisgame" element={<TetrisGame />} />
+
+<ListItem button component={RouterLink} to="/tetrisgame">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+
+
+// 11. MazeGen
+
+import MazeGen from './pages/MazeGen'
+
+<Route path="/mazegen" element={<MazeGen />} />
+
+<ListItem button component={RouterLink} to="/mazegen">
+<ListItemIcon>
+<PersonIcon />
+</ListItemIcon>
+{open && <ListItemText primaryTypographyProps={{fontSize: "14px"}} primary="Asset register" />}
+

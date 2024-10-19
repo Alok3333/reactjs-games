@@ -10,11 +10,6 @@ import {
 import global1 from "./global1";
 import FinalGamePage from "./FinalGamePage";
 
-// Global data here
-const username = global1.name;
-const registerNo = global1.regno;
-const avatarImg = global1.profileImage; // global1 profile pic here
-
 // Maze generation logic
 const generateMaze = (width, height) => {
   const maze = Array.from({ length: height }, () => Array(width).fill(1));
@@ -56,6 +51,12 @@ const generateMaze = (width, height) => {
 
 // Main component
 const MazeGen = () => {
+  // Global data here
+  const username = global1.name;
+  const registerNo = global1.regno;
+  const avatarImg = global1.profileImage; // global1 profile pic here
+
+  // State start here
   const [level, setLevel] = useState(0);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
@@ -63,17 +64,24 @@ const MazeGen = () => {
   const [maze, setMaze] = useState([]);
   const [difficulty, setDifficulty] = useState("easy");
   const [yellowSquare, setYellowSquare] = useState({ x: 0, y: 0 });
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(70); // Default timer set to easy level
   const [isTimerActive, setIsTimerActive] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false); // New state for play mode
 
   // Game Objective
   const objective =
     "This maze generation game offers a fun and engaging way to enhance problem-solving skills and spatial awareness. It challenges players to navigate through randomly generated mazes, fostering critical thinking and strategy development. Additionally, the game provides a sense of accomplishment when reaching the red dot, making it an enjoyable experience for users of all ages. Whether you play solo or compete with friends, it’s a great way to unwind while stimulating your mind!";
 
   const mazeSettings = {
-    easy: { width: 11, height: 11, time: 120 },
-    medium: { width: 21, height: 21, time: 420 },
-    hard: { width: 31, height: 31, time: 900 },
+    easy: { width: 11, height: 11 },
+    medium: { width: 21, height: 21 },
+    hard: { width: 31, height: 31 },
+  };
+
+  const timerSettings = {
+    easy: 70,
+    medium: 320,
+    hard: 500,
   };
 
   const redDot = { x: 0, y: 0 }; // Red dot position
@@ -83,11 +91,14 @@ const MazeGen = () => {
     const newMaze = generateMaze(width, height);
     setMaze(newMaze);
     setYellowSquare({ x: 0, y: height - 1 }); // Reset yellow square position when maze is generated
-    setTimer(mazeSettings[difficulty].time); // Set the timer based on difficulty
-    setIsTimerActive(true); // Start the timer
+    setTimer(timerSettings[difficulty]); // Set the timer based on difficulty
+    setIsPlaying(false); // Reset play state
+    setIsTimerActive(false); // Ensure timer is not active when maze is created
   };
 
   const moveSquare = (dx, dy) => {
+    if (!isPlaying) return; // Prevent movement if not in play mode
+
     const newX = yellowSquare.x + dx;
     const newY = yellowSquare.y + dy;
 
@@ -133,7 +144,7 @@ const MazeGen = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [yellowSquare, maze]);
+  }, [yellowSquare, maze, isPlaying]);
 
   useEffect(() => {
     let interval;
@@ -143,6 +154,7 @@ const MazeGen = () => {
       }, 1000);
     } else if (timer === 0) {
       setIsTimerActive(false);
+      setIsPlaying(false); // Stop the game if time runs out
       alert("Time's up! You can now proceed to the next level.");
       setIsReached(false); // Disable further moves
     }
@@ -160,6 +172,11 @@ const MazeGen = () => {
     setScore(calculatedScore);
     setLevel((prev) => prev + 1);
     setIsFinished(true);
+  };
+
+  const handlePlay = () => {
+    setIsPlaying(true); // Set play state to true
+    setIsTimerActive(true); // Start the timer
   };
 
   return (
@@ -283,6 +300,14 @@ const MazeGen = () => {
           </Box>
 
           <Box>
+            <Button
+              variant="outlined"
+              color="success"
+              onClick={handlePlay}
+              sx={{ mx: 2 }}
+            >
+              {isPlaying ? "Pause" : "Play"}
+            </Button>
             <Button
               variant="outlined"
               color="secondary"
